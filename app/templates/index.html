@@ -6,6 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Hello!</title>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript">
+    $(document).ready(function (e) {
+      $('#upload-file-btn').click(function() {
+        var form_data = new FormData($('#upload-file')[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/uploadfile',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log('Success!');
+            },
+        });
+    });
+});
+	</script>
 </head>
 
 <body>
@@ -13,12 +33,19 @@
     <p>This is an app for image recognition.</p>
     <code>Pytorch is <em>awesome</em></code>
 <br>
-    <h2>Upload new file</h2>
-    <!-- 127.0.0.1:5000 -->
-    <form action="http://img-recog-app.herokuapp.com/uploadfile" method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
+  <h2>Upload new file</h2>
+  <!-- 127.0.0.1:5000 -->
+  <!-- action="http://img-recog-app.herokuapp.com/uploadfile" -->
+  <form method="post" enctype="multipart/form-data">
+    <fieldset>
+      <label for="file">Upload new file</label>
+      <input name="file" type="file">
+    </fieldset>
+    <fieldset>
+      <!-- <input type=submit value=Upload> -->
+      <button id="upload-file-btn" type="button">Upload</button>
+    </fieldset>
+  </form>
 </body>
 
 </html>
