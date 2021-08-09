@@ -1,7 +1,7 @@
 import os
 from werkzeug.utils import secure_filename
 from flask import Flask, jsonify, flash, request, redirect, send_file, render_template
-from app.torch_utils import transform_image, get_prediction #app.torch_utils
+from torch_utils import transform_image, get_prediction #app.torch_utils
 import traceback
 
 UPLOAD_FOLDER = 'uploads/'
@@ -23,14 +23,21 @@ def upload_file():
 		# if user does not select file, browser submits empty part without filename
 		if file.filename == '':
 			return "No file name found."
-		else:
+		if not allowed_file(file.filename):
+			return "File type not allowed."
+
+		try:
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			print('saved file successfully')
-		# send file name as parameter to download
+			# send file name as parameter to download
 			#return redirect('/downloadfile/' + filename)
 			#return redirect('/displayresults/', value = filename)
 			return "Saved file successfully!"
+		except:
+			traceback.print_exc()
+			return jsonify({'error': 'saving file'})
+
 	return render_template('index.html')
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -72,4 +79,4 @@ def hello():
 	return 'Hello world!'
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(debug = True)
