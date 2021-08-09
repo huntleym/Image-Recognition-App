@@ -1,7 +1,7 @@
 import os
 from werkzeug.utils import secure_filename
 from flask import Flask, jsonify, flash, request, redirect, send_file, render_template
-from torch_utils import transform_image, get_prediction #app.torch_utils
+from app.torch_utils import transform_image, get_prediction #app.torch_utils
 import traceback
 
 UPLOAD_FOLDER = 'uploads/'
