@@ -7,12 +7,16 @@ import traceback
 UPLOAD_FOLDER = 'uploads/'
 
 app = Flask(__name__, template_folder='templates')
+app.secret_key = "secret_key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 @app.route('/uploadfile', methods=['GET', 'POST'])
 def upload_file():
 	if request.method == 'POST':
 		# check if the post request has the file part
+		f = request.files['file']
+		f.save(secure_filename(f.filename))
 		if 'file' not in request.files:
 			return "No file found."
 		file = request.files['file']
