@@ -25,7 +25,8 @@ def upload_file():
 			print('saved file successfully')
 		# send file name as parameter to download
 			#return redirect('/downloadfile/' + filename)
-			return redirect('/displayresults/', value = filename)
+			#return redirect('/displayresults/', value = filename)
+			return "Saved file successfully!"
 	return render_template('index.html')
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
